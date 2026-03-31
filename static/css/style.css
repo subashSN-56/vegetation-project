@@ -1,94 +1,76 @@
 body {
-font-family: 'Segoe UI', sans-serif;
-background: linear-gradient(to right, #4facfe, #00f2fe);
-margin: 0;
-padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    margin: 0;
+    padding: 0;
 }
 
-/* Center container */
+/* Container */
 .container {
-text-align: center;
-padding: 40px 20px;
+    text-align: center;
+    padding: 40px 20px;
 }
 
 /* Title */
 h2 {
-color: white;
-font-size: 34px;
-margin-bottom: 20px;
+    color: white;
+    font-size: 34px;
 }
 
-/* Form Card */
+/* Form */
 form {
-background: rgba(255, 255, 255, 0.95);
-padding: 25px;
-border-radius: 15px;
-display: inline-block;
-box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-transition: 0.3s;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 25px;
+    border-radius: 15px;
+    display: inline-block;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 }
 
-form:hover {
-transform: translateY(-3px);
-}
-
-/* File Input */
+/* File input */
 input[type="file"] {
-margin: 15px 0;
-padding: 8px;
+    margin: 15px 0;
 }
 
 /* Button */
 button {
-background: linear-gradient(to right, #4facfe, #007bff);
-color: white;
-border: none;
-padding: 12px 28px;
-border-radius: 30px;
-font-size: 16px;
-cursor: pointer;
-transition: 0.3s;
+    background: linear-gradient(to right, #4facfe, #007bff);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 30px;
+    cursor: pointer;
 }
 
 button:hover {
-transform: scale(1.08);
-background: linear-gradient(to right, #007bff, #0056b3);
+    background: #0056b3;
 }
 
-/* Prediction Text */
+/* Prediction */
 .prediction-text {
-margin-top: 20px;
-color: white;
-font-size: 20px;
-font-weight: bold;
+    margin-top: 20px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
 }
 
-/* Image Layout */
+/* Images */
 .image-container {
-display: flex;
-justify-content: center;
-gap: 40px;
-margin-top: 30px;
-flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 30px;
+    flex-wrap: wrap;
 }
 
-/* Image Card */
 .image-box {
-background: white;
-padding: 15px;
-border-radius: 15px;
-box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-transition: 0.3s;
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
 }
 
-.image-box:hover {
-transform: scale(1.05);
-}
-
-/* Image */
 img {
-width: 400px;
-max-width: 100%;
-border-radius: 10px;
-margin-top: 10px;
+    width: 400px;
+    max-width: 100%;
+    border-radius: 10px;
 }
