@@ -1,0 +1,21 @@
+# Vegetation Management Along Power Corridor
+
+## Description
+This project detects vegetation near power lines using YOLOv8.
+
+
+pip install flask ultralytics opencv-python
+
+## Features
+- Upload image
+- Detect vegetation
+- Display output
+
+## Tech Stack
+- YOLOv8
+- Flask
+- Python
+
+## How to Run
+pip install -r requirements.txt
+python app.py

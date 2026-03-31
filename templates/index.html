@@ -1,0 +1,62 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Vegetation Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+<body>
+
+<h2>Upload Image</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    <input type="file" name="image" required>
+    <button type="submit">Predict</button>
+</form>
+
+{% if image %}
+    <h3>Result:</h3>
+    <img src="{{ image }}" width="400">
+{% endif %}
+
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vegetation Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<h2>Vegetation Detection System 🌿</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    <input type="file" name="image" required>
+    <button type="submit">Predict</button>
+</form>
+{% if uploaded_image or output_image %}
+<div class="image-container">
+
+    {% if uploaded_image %}
+    <div class="image-box">
+        <h3 class="result-title">Uploaded Image</h3>
+        <img src="{{ uploaded_image }}" width="500">
+    </div>
+    {% endif %}
+
+    {% if output_image %}
+    <div class="image-box">
+        <h3 class="result-title">Detection Result</h3>
+        <img src="{{ output_image }}" width="500">
+    </div>
+    {% endif %}
+
+</div>
+{% endif %}
+
+</body>
+</html>
