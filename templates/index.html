@@ -1,46 +1,55 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Vegetation Detection 🌿</title>
+    <title>Vegetation Detection</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+```
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+```
+
 </head>
 <body>
 
 <div class="container">
 
-    <h1>🌿 Vegetation Detection System</h1>
-    <p class="subtitle">Upload an image to detect vegetation areas</p>
+```
+<h2>🌿 Vegetation Detection System</h2>
 
-    <!-- Upload Form -->
-    <form method="POST" enctype="multipart/form-data" class="upload-form">
-        <input type="file" name="image" required>
-        <button type="submit">Predict</button>
-    </form>
+<!-- Upload Form -->
+<form method="POST" enctype="multipart/form-data">
+    <input type="file" name="image" accept="image/*" required>
+    <button type="submit">Predict</button>
+</form>
 
-    <!-- Image Results -->
-    {% if uploaded_image or output_image %}
-    <div class="image-container">
+<!-- Prediction Text -->
+{% if prediction %}
+    <h3 class="prediction-text">Result: {{ prediction }}</h3>
+{% endif %}
 
-        {% if uploaded_image %}
-        <div class="image-box">
-            <h3>📷 Uploaded Image</h3>
-            <img src="{{ uploaded_image }}">
-        </div>
-        {% endif %}
+<!-- Images Section -->
+{% if uploaded_image or output_image %}
+<div class="image-container">
 
-        {% if output_image %}
-        <div class="image-box">
-            <h3>🌿 Detection Result</h3>
-            <img src="{{ output_image }}">
-        </div>
-        {% endif %}
-
+    {% if uploaded_image %}
+    <div class="image-box">
+        <h3>Uploaded Image</h3>
+        <img src="{{ uploaded_image }}">
     </div>
     {% endif %}
+
+    {% if output_image %}
+    <div class="image-box">
+        <h3>Detection Result</h3>
+        <img src="{{ output_image }}">
+    </div>
+    {% endif %}
+
+</div>
+{% endif %}
+```
 
 </div>
 
