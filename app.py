@@ -1,77 +1,3 @@
-# from flask import Flask, request, render_template
-# from ultralytics import YOLO
-# import os
-# import cv2
-
-# app = Flask(__name__)
-
-# # Load YOLO model
-# model = YOLO("best.pt")
-
-# # Folders
-# UPLOAD_FOLDER = "static/uploads"
-# OUTPUT_FOLDER = "static/outputs"
-
-# os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-# os.makedirs(OUTPUT_FOLDER, exist_ok=True)
-
-# app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-# app.config["OUTPUT_FOLDER"] = OUTPUT_FOLDER
-
-
-# @app.route("/", methods=["GET", "POST"])
-# def index():
-#     if request.method == "POST":
-
-#         # Check file
-#         if "image" not in request.files:
-#             return "No file uploaded"
-
-#         file = request.files["image"]
-
-#         if file.filename == "":
-#             return "No file selected"
-
-#         # Save uploaded image
-#         upload_path = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
-#         file.save(upload_path)
-
-#         # Run YOLO prediction
-#         results = model(upload_path)
-
-#         # Draw bounding boxes
-#         result_img = results[0].plot()
-
-#         # Save output image
-#         output_path = os.path.join(app.config["OUTPUT_FOLDER"], file.filename)
-#         cv2.imwrite(output_path, result_img)
-
-#         return render_template(
-#             "index.html",
-#             uploaded_image="/" + upload_path,
-#             output_image="/" + output_path,
-#             prediction="Vegetation Detected 🌿"
-#         )
-
-#     return render_template(
-#         "index.html",
-#         uploaded_image=None,
-#         output_image=None,
-#         prediction=None
-#     )
-
-
-# if __name__ == "__main__":
-#     app.run(debug=True)
-
-
-
-
-
-
-
-
-
 
 from flask import Flask, request, render_template
 from ultralytics import YOLO
@@ -80,10 +6,10 @@ import cv2
 
 app = Flask(__name__)
 
-# ✅ Load model once (important for performance)
+# ✅ Load model
 model = YOLO("best.pt")
 
-# ✅ Folder setup
+# Folders
 UPLOAD_FOLDER = "static/uploads"
 OUTPUT_FOLDER = "static/outputs"
 
@@ -102,7 +28,7 @@ def index():
 
     if request.method == "POST":
 
-        # ✅ Check file exists
+        # ✅ File validation
         if "image" not in request.files:
             return "No file uploaded"
 
@@ -112,25 +38,59 @@ def index():
             return "No file selected"
 
         try:
-            # ✅ Save uploaded file
+            # ✅ Save uploaded image
             upload_path = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
+            upload_path = upload_path.replace("\\", "/")
             file.save(upload_path)
 
             # ✅ Run YOLO prediction
             results = model(upload_path)
 
-            # ✅ Draw bounding boxes
-            result_img = results[0].plot()
+            # ✅ Read image
+            img = cv2.imread(upload_path)
+
+            danger_count = 0
+            normal_count = 0
+
+            # ✅ Loop detections
+            for box in results[0].boxes:
+                x1, y1, x2, y2 = map(int, box.xyxy[0])
+                conf = float(box.conf[0])
+                cls = int(box.cls[0])
+
+                label = model.names[cls]
+
+                # ✅ CORRECT CONFIDENCE LOGIC
+                if conf < 0.6:
+                    color = (0, 0, 255)  # 🔴 RED = danger
+                    danger_count += 1
+                else:
+                    color = (255, 0, 0)  # 🔵 BLUE = normal
+                    normal_count += 1
+
+                # Draw bounding box
+                cv2.rectangle(img, (x1, y1), (x2, y2), color, 3)
+
+                # Label text
+                text = f"{label} {conf:.2f}"
+
+                # Background for text
+                cv2.rectangle(img, (x1, y1 - 30), (x1 + 160, y1), color, -1)
+
+                # Put label text
+                cv2.putText(img, text, (x1 + 5, y1 - 10),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
             # ✅ Save output image
             output_path = os.path.join(app.config["OUTPUT_FOLDER"], file.filename)
-            cv2.imwrite(output_path, result_img)
+            output_path = output_path.replace("\\", "/")
+            cv2.imwrite(output_path, img)
 
-            # ✅ Simple prediction text
-            if len(results[0].boxes) > 0:
-                prediction = f"{len(results[0].boxes)} Vegetation Detected 🌿"
+            # ✅ Prediction result
+            if danger_count > 0:
+                prediction = f"⚠️ Danger: {danger_count} | Normal: {normal_count}"
             else:
-                prediction = "No Vegetation Detected ❌"
+                prediction = f"✅ Safe: {normal_count} Vegetation Detected"
 
             uploaded_image = "/" + upload_path
             output_image = "/" + output_path
@@ -146,7 +106,7 @@ def index():
     )
 
 
-# ✅ Render-compatible run
+# ✅ Run (Render compatible)
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)

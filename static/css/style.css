@@ -1,8 +1,9 @@
+/* Background */
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to right, #4facfe, #00f2fe);
     margin: 0;
-    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #1d976c, #93f9b9);
+    color: white;
 }
 
 /* Container */
@@ -12,65 +13,94 @@ body {
 }
 
 /* Title */
-h2 {
-    color: white;
-    font-size: 34px;
+h1 {
+    font-size: 36px;
+    margin-bottom: 5px;
 }
 
-/* Form */
-form {
-    background: rgba(255, 255, 255, 0.95);
+.subtitle {
+    opacity: 0.8;
+    margin-bottom: 25px;
+}
+
+/* Upload box */
+.upload-box {
+    background: white;
+    color: black;
     padding: 25px;
     border-radius: 15px;
     display: inline-block;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-/* File input */
+/* Input */
 input[type="file"] {
-    margin: 15px 0;
+    margin: 10px 0;
 }
 
 /* Button */
 button {
-    background: linear-gradient(to right, #4facfe, #007bff);
+    background: linear-gradient(to right, #1d976c, #11998e);
     color: white;
     border: none;
-    padding: 12px 28px;
-    border-radius: 30px;
+    padding: 12px 30px;
+    border-radius: 25px;
     cursor: pointer;
+    transition: 0.3s;
 }
 
 button:hover {
-    background: #0056b3;
+    transform: scale(1.05);
 }
 
-/* Prediction */
-.prediction-text {
+/* Loader */
+#loader {
+    display: none;
     margin-top: 20px;
-    color: white;
-    font-size: 20px;
     font-weight: bold;
 }
 
-/* Images */
+/* Result */
+.result-box {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Danger */
+.danger {
+    background: rgba(255, 0, 0, 0.7);
+}
+
+/* Safe */
+.safe {
+    background: rgba(0, 128, 0, 0.7);
+}
+
+/* Image layout */
 .image-container {
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 30px;
     margin-top: 30px;
     flex-wrap: wrap;
 }
 
-.image-box {
+/* Card */
+.card {
     background: white;
+    color: black;
     padding: 15px;
     border-radius: 15px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
+/* Image */
 img {
     width: 400px;
     max-width: 100%;
     border-radius: 10px;
+    margin-top: 10px;
 }

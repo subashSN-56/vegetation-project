@@ -11,17 +11,23 @@
 
 <div class="container">
 
-    <h2>🌿 Vegetation Detection System</h2>
+    <h1>🌿 Vegetation Detection System</h1>
+    <p class="subtitle">AI-powered vegetation analysis</p>
 
     <!-- Upload Form -->
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" class="upload-box" onsubmit="showLoader()">
         <input type="file" name="image" accept="image/*" required>
         <button type="submit">Predict</button>
     </form>
 
-    <!-- Prediction Text -->
+    <!-- Loader -->
+    <div id="loader">🔄 Processing...</div>
+
+    <!-- Result -->
     {% if prediction %}
-        <h3 class="prediction-text">Result: {{ prediction }}</h3>
+    <div class="result-box {% if 'Danger' in prediction %}danger{% else %}safe{% endif %}">
+        {{ prediction }}
+    </div>
     {% endif %}
 
     <!-- Images -->
@@ -29,15 +35,15 @@
     <div class="image-container">
 
         {% if uploaded_image %}
-        <div class="image-box">
-            <h3>Uploaded Image</h3>
+        <div class="card">
+            <h3>📷 Uploaded Image</h3>
             <img src="{{ uploaded_image }}">
         </div>
         {% endif %}
 
         {% if output_image %}
-        <div class="image-box">
-            <h3>Detection Result</h3>
+        <div class="card">
+            <h3>🤖 Detection Result</h3>
             <img src="{{ output_image }}">
         </div>
         {% endif %}
@@ -46,6 +52,12 @@
     {% endif %}
 
 </div>
+
+<script>
+function showLoader() {
+    document.getElementById("loader").style.display = "block";
+}
+</script>
 
 </body>
 </html>
