@@ -19,3 +19,10 @@ pip install flask ultralytics opencv-python
 ## How to Run
 pip install -r requirements.txt
 python app.py
+
+
+
+flask
+ultralytics
+opencv-python
+gunicorn

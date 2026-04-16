@@ -1,5 +1,8 @@
 
-flask
+
+
+streamlit
 ultralytics
-opencv-python
-gunicorn
+opencv-python-headless
+pillow
+numpy
