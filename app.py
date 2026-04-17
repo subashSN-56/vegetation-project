@@ -114,25 +114,33 @@
 
 
 
-
-
-
 import streamlit as st
 from ultralytics import YOLO
 import cv2
 import numpy as np
 from PIL import Image
 import os
+import urllib.request
 
 st.set_page_config(page_title="Vegetation Detection", layout="centered")
 
 st.title("🌿 Vegetation Detection using YOLO")
 st.write("Upload an image to detect vegetation and analyze safety.")
 
-# ✅ Load model (only once)
+# ✅ Model path
+MODEL_PATH = "best.pt"
+
+# ✅ Download model FIRST (before loading)
+MODEL_URL = "YOUR_MODEL_LINK"   # 🔥 replace this
+
+if not os.path.exists(MODEL_PATH):
+    st.info("⬇️ Downloading model... please wait")
+    urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
+
+# ✅ Load model AFTER download
 @st.cache_resource
 def load_model():
-    return YOLO("best.pt")
+    return YOLO(MODEL_PATH)
 
 model = load_model()
 
@@ -140,20 +148,18 @@ model = load_model()
 uploaded_file = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
-    # Convert to OpenCV format
     image = Image.open(uploaded_file)
     img = np.array(image)
 
     st.subheader("📷 Uploaded Image")
     st.image(image, use_column_width=True)
 
-    # Run YOLO
+    # YOLO prediction
     results = model(img)
 
     danger_count = 0
     normal_count = 0
 
-    # Draw boxes
     for box in results[0].boxes:
         x1, y1, x2, y2 = map(int, box.xyxy[0])
         conf = float(box.conf[0])
@@ -163,16 +169,15 @@ if uploaded_file is not None:
 
         # ✅ Confidence logic
         if conf < 0.6:
-            color = (0, 0, 255)  # Red
+            color = (0, 0, 255)
             danger_count += 1
         else:
-            color = (255, 0, 0)  # Blue
+            color = (255, 0, 0)
             normal_count += 1
 
-        # Draw rectangle
+        # Draw box
         cv2.rectangle(img, (x1, y1), (x2, y2), color, 3)
 
-        # Label
         text = f"{label} {conf:.2f}"
         cv2.rectangle(img, (x1, y1 - 30), (x1 + 160, y1), color, -1)
         cv2.putText(img, text, (x1 + 5, y1 - 10),
@@ -182,7 +187,6 @@ if uploaded_file is not None:
     st.subheader("🔍 Detection Result")
     st.image(img, channels="BGR", use_column_width=True)
 
-    # Prediction text
     if danger_count > 0:
         st.error(f"⚠️ Danger: {danger_count} | Normal: {normal_count}")
     else:
